@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="tealGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#14B8A6"/>
+      <stop offset="100%" stop-color="#0D9488"/>
+    </linearGradient>
+    <linearGradient id="coralGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FB923C"/>
+      <stop offset="100%" stop-color="#F97316"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background rounded rectangle -->
+  <rect width="512" height="512" rx="112" fill="url(#tealGrad)"/>
+
+  <!-- Inner subtle glow circle -->
+  <circle cx="256" cy="256" r="180" fill="#FFFBEB" opacity="0.12"/>
+
+  <!-- Shield symbol outline -->
+  <path d="M256 70 C340 70 410 110 410 210 C410 330 256 430 256 430 C256 430 102 330 102 210 C102 110 172 70 256 70 Z" 
+        fill="#FFFBEB" 
+        stroke="#F97316" 
+        stroke-width="12"
+        stroke-linejoin="round"/>
+
+  <!-- Auto Rickshaw stylized icon in center -->
+  <g transform="translate(146, 150) scale(0.43)">
+    <!-- Cabin Roof -->
+    <path d="M70 140 Q 140 40, 260 40 Q 380 40, 440 140 L 440 280 L 70 280 Z" fill="#0D9488"/>
+    <!-- Windshield -->
+    <path d="M100 150 L 230 150 L 230 230 L 100 230 Z" fill="#CCFBF1"/>
+    <path d="M270 150 L 400 150 L 400 230 L 270 230 Z" fill="#CCFBF1"/>
+    <!-- Body Chassis -->
+    <rect x="50" y="270" width="410" height="110" rx="30" fill="#F97316"/>
+    <!-- Headlight -->
+    <circle cx="90" cy="320" r="24" fill="#FEF08A" stroke="#CA8A04" stroke-width="6"/>
+    <!-- Wheels -->
+    <circle cx="130" cy="410" r="46" fill="#1E293B"/>
+    <circle cx="130" cy="410" r="22" fill="#E2E8F0"/>
+    <circle cx="380" cy="410" r="46" fill="#1E293B"/>
+    <circle cx="380" cy="410" r="22" fill="#E2E8F0"/>
+  </g>
+
+  <!-- Small heart trust stamp -->
+  <circle cx="360" cy="140" r="46" fill="#F97316" stroke="#FFFBEB" stroke-width="8"/>
+  <path d="M360 155 L 342 136 Q 332 124, 344 114 Q 354 106, 360 118 Q 366 106, 376 114 Q 388 124, 378 136 Z" fill="#FFFBEB"/>
+</svg>
