@@ -189,4 +189,130 @@ export const DICTIONARY: Translations = {
   callNowBtn: { en: "Call", hi: "कॉल करें" },
   directionsBtn: { en: "Maps", hi: "दिशा देखें" },
   cctvMonitored: { en: "24×7 Well-Lit & Guarded", hi: "24×7 रोशनी व गार्ड युक्त" },
+
+  // Live Camera Face-AI & Auth
+  loginTitle: { en: "Women-Safe Transit Community", hi: "महिला-सुरक्षित ट्रांजिट नेटवर्क" },
+  loginSubtitle: {
+    en: "Exclusive verified community for women commuters in Bhopal.",
+    hi: "भोपाल की महिला यात्रियों के लिए विशेष सत्यापित कम्युनिटी।",
+  },
+  createAccountTab: { en: "Create Account", hi: "नया खाता बनाएं" },
+  signInTab: { en: "Sign In", hi: "साइन इन" },
+  fullNameLabel: { en: "Full Name", hi: "पूरा नाम" },
+  fullNamePlaceholder: { en: "e.g. Aditi Rao", hi: "उदा. अदिति राव" },
+  emailLabel: { en: "College / Work Email", hi: "कॉलेज / ऑफिस ईमेल" },
+  emailPlaceholder: { en: "e.g. aditi@manit.ac.in", hi: "उदा. aditi@manit.ac.in" },
+  passwordLabel: { en: "Password", hi: "पासवर्ड" },
+  passwordPlaceholder: { en: "Min 6 characters", hi: "कम से कम 6 अक्षर" },
+  continueToVerifyBtn: { en: "Proceed to Live Face Verification →", hi: "लाइव फेस वेरिफिकेशन के लिए आगे बढ़ें →" },
+  faceVerifyStepTitle: { en: "Live Front-Camera Verification", hi: "लाइव फ्रंट-कैमरा महिला सत्यापन" },
+  faceVerifyStepDesc: {
+    en: "Client-side biometric check to guarantee our shared autos remain 100% women-only.",
+    hi: "ऑन-डिवाइस बायोमेट्रिक जांच जो साझा ऑटो में 100% केवल महिला यात्रियों की गारंटी देती है।",
+  },
+  alignFace: { en: "Align your face in the circular frame", hi: "अपने चेहरे को सर्कल के बीच में रखें" },
+  detectingLiveness: { en: "Detecting face & analyzing liveness...", hi: "चेहरा पहचान व सुरक्षा विश्लेषण जारी..." },
+  verifiedFemaleCommuter: { en: "Verified Female Commuter", hi: "सत्यापित महिला यात्री" },
+  exclusiveWomenNotice: {
+    en: "Exclusive Women-Only Network: SaheliMile is dedicated strictly to women commuters for collective safety. Male registration cannot be verified.",
+    hi: "केवल महिलाओं के लिए नेटवर्क: सहेलीमाइल सुरक्षा कारणों से केवल महिला यात्रियों के लिए है। पुरुष पंजीकरण सत्यापित नहीं किया जा सकता।",
+  },
+  judgeDemoBypass: { en: "No Camera / Judge Demo Access", hi: "कैमरा नहीं है? जज डेमो एक्सेस" },
+  selfieVerified: { en: "Selfie Verified", hi: "सेल्फी सत्यापित" },
+  logoutBtn: { en: "Log Out", hi: "लॉगआउट" },
+  startCameraBtn: { en: "Enable Front Camera", hi: "फ्रंट कैमरा चालू करें" },
+  cameraPermissionError: {
+    en: "Camera access denied or unavailable. You can use the Judge Demo Access below to evaluate.",
+    hi: "कैमरा अनुमति अस्वीकृत या अनुपलब्ध है। कृपया नीचे दिए गए डेमो एक्सेस का उपयोग करें।",
+  },
+  blinkPrompt: {
+    en: "Blink your eyes 3 times to verify live presence",
+    hi: "लाइव पुष्टि के लिए अपनी आँखें 3 बार झपकाएं",
+  },
+  blinkAntiSpoof: {
+    en: "Anti-Spoofing 3-Blink Liveness",
+    hi: "एंटी-स्पूफिंग 3-ब्लिंक लाइवनेस",
+  },
+  blinkDot: {
+    en: "Blink",
+    hi: "पलक",
+  },
+
+  // Pan-India Location Search & Real-Road Routing
+  panIndiaPresets: {
+    en: "Popular Transit Hub Presets",
+    hi: "प्रमुख ट्रांजिट हब शॉर्टकट",
+  },
+  roadDistanceLabel: {
+    en: "Road Distance",
+    hi: "सड़क दूरी",
+  },
+  estTravelTime: {
+    en: "Est. Time",
+    hi: "अनुमानित समय",
+  },
+  autoMeterRate: {
+    en: "Auto Meter Rate (Base ₹25 + ₹14/km)",
+    hi: "ऑटो मीटर दर (बेस ₹25 + ₹14/किमी)",
+  },
+  customRouteBadge: {
+    en: "Live OSRM Real Road Route",
+    hi: "लाइव OSRM वास्तविक सड़क मार्ग",
+  },
+  pickupInputLabel: {
+    en: "Pickup Hub / Station / Live GPS",
+    hi: "पिकअप हब / स्टेशन / लाइव GPS",
+  },
+  dropInputLabel: {
+    en: "Drop Colony / College / Address",
+    hi: "गंतव्य कॉलोनी / कॉलेज / पता",
+  },
+  pickExactOnMap: {
+    en: "Pick Exact Spot on Map",
+    hi: "नक्शे पर सटीक स्थान चुनें",
+  },
+  pinDropActiveTitle: {
+    en: "Pin-Drop Exact Location",
+    hi: "नक्शे पर सटीक स्थान पिन करें",
+  },
+  pinDropInstruction: {
+    en: "Pan & zoom the map to position the center pin",
+    hi: "सटीक स्थान पर पिन रखने के लिए नक्शे को खिसकाएं",
+  },
+  confirmSpotBtn: {
+    en: "Confirm This Spot",
+    hi: "इस स्थान की पुष्टि करें",
+  },
+  cancelPinDrop: {
+    en: "Cancel",
+    hi: "रद्द करें",
+  },
+  customLandmarkPrompt: {
+    en: "Name this landmark / shop (e.g. Gangaram Sweets, Nawada Metro Gate)",
+    hi: "दुकान / लैंडमार्क का नाम (उदा. गंगाराम स्वीट्स, नवादा मेट्रो)",
+  },
+  detectedAddress: {
+    en: "Detected Locality",
+    hi: "पहचाना गया इलाका",
+  },
+  reverseLocating: {
+    en: "Locating address...",
+    hi: "पता खोजा जा रहा है...",
+  },
+  settingPickup: {
+    en: "Setting Pickup Point",
+    hi: "पिकअप स्थान सेट कर रहे हैं",
+  },
+  settingDrop: {
+    en: "Setting Drop Point",
+    hi: "ड्रॉप स्थान सेट कर रहे हैं",
+  },
+  noSearchMatches: {
+    en: "No exact match found. Try picking directly on the map!",
+    hi: "कोई सटीक स्थान नहीं मिला। सीधे नक्शे पर पिन चुनें!",
+  },
+  dualSearchBadge: {
+    en: "Photon + OSM Fuzzy Search",
+    hi: "फ़ोटॉन + OSM फ़ज़ी खोज",
+  },
 };

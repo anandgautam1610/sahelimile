@@ -12,6 +12,9 @@ export interface LeafletMapProps {
   matchRouteCoordinates?: [number, number][];
   overlapPercentage?: number;
   className?: string;
+  isPinDropMode?: boolean;
+  pinDropTarget?: "source" | "destination";
+  onCenterChange?: (coords: Coordinates) => void;
 }
 
 export default function LeafletInnerMap({
@@ -22,10 +25,18 @@ export default function LeafletInnerMap({
   matchRouteCoordinates,
   overlapPercentage,
   className = "h-[300px] w-full",
+  isPinDropMode = false,
+  pinDropTarget = "destination",
+  onCenterChange,
 }: LeafletMapProps) {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
   const layersGroupRef = useRef<L.LayerGroup | null>(null);
+  const onCenterChangeRef = useRef(onCenterChange);
+
+  useEffect(() => {
+    onCenterChangeRef.current = onCenterChange;
+  }, [onCenterChange]);
 
   useEffect(() => {
     if (!mapContainerRef.current) return;
@@ -173,14 +184,16 @@ export default function LeafletInnerMap({
       matchRouteCoordinates.forEach((pt) => boundsPoints.push(pt));
     }
 
-    // Adjust map viewport to fit all points
-    if (boundsPoints.length > 1) {
-      map.fitBounds(L.latLngBounds(boundsPoints), {
-        padding: [30, 30],
-        maxZoom: 16,
-      });
-    } else {
-      map.setView([origin.lat, origin.lng], 14);
+    // Adjust map viewport to fit all points (unless pin drop mode is active)
+    if (!isPinDropMode) {
+      if (boundsPoints.length > 1) {
+        map.fitBounds(L.latLngBounds(boundsPoints), {
+          padding: [30, 30],
+          maxZoom: 16,
+        });
+      } else {
+        map.setView([origin.lat, origin.lng], 14);
+      }
     }
 
     // Invalidate size on initial load to avoid half-rendered tiles
@@ -194,7 +207,43 @@ export default function LeafletInnerMap({
     routeCoordinates,
     matchRouteCoordinates,
     overlapPercentage,
+    isPinDropMode,
   ]);
+
+  // Handle Pin Drop Mode Movement Listener
+  useEffect(() => {
+    const map = mapInstanceRef.current;
+    if (!map) return;
+
+    if (isPinDropMode) {
+      // Pan to target when pin drop activates
+      const targetCoords =
+        pinDropTarget === "source"
+          ? [origin.lat, origin.lng]
+          : userDestination
+          ? [userDestination.lat, userDestination.lng]
+          : [origin.lat, origin.lng];
+
+      map.setView(targetCoords as [number, number], 16, { animate: true });
+
+      const handleMove = () => {
+        const center = map.getCenter();
+        onCenterChangeRef.current?.({ lat: center.lat, lng: center.lng });
+      };
+
+      map.on("move", handleMove);
+      map.on("moveend", handleMove);
+
+      // Report initial center
+      const center = map.getCenter();
+      onCenterChangeRef.current?.({ lat: center.lat, lng: center.lng });
+
+      return () => {
+        map.off("move", handleMove);
+        map.off("moveend", handleMove);
+      };
+    }
+  }, [isPinDropMode, pinDropTarget, origin.lat, origin.lng, userDestination]);
 
   // Clean up map on unmount
   useEffect(() => {
@@ -207,13 +256,75 @@ export default function LeafletInnerMap({
   }, []);
 
   return (
-    <div className={`relative overflow-hidden rounded-2xl shadow-inner border border-slate-200 ${className}`}>
+    <div
+      className={`relative overflow-hidden rounded-2xl shadow-inner border transition-all ${
+        isPinDropMode
+          ? "border-orange-500 ring-2 ring-orange-400/40"
+          : "border-slate-200"
+      } ${className}`}
+    >
       <div ref={mapContainerRef} className="w-full h-full" />
-      {overlapPercentage !== undefined && (
+
+      {/* Normal mode overlap percentage badge */}
+      {!isPinDropMode && overlapPercentage !== undefined && (
         <div className="absolute top-3 right-3 z-[400] bg-white/95 backdrop-blur-md px-3 py-1.5 rounded-full shadow-md border border-teal-200 flex items-center gap-1.5 text-xs font-bold text-teal-800">
           <span className="w-2 h-2 rounded-full bg-teal-500 animate-ping" />
           <span>{overlapPercentage}% Overlap</span>
         </div>
+      )}
+
+      {/* Pin Drop Mode Overlay Elements */}
+      {isPinDropMode && (
+        <>
+          {/* Top Instruction Pill */}
+          <div className="absolute top-3 left-1/2 -translate-x-1/2 z-[500] bg-slate-900/90 backdrop-blur-md text-white text-[11px] font-bold px-3 py-1.5 rounded-full shadow-xl border border-orange-400/50 flex items-center gap-2 pointer-events-none animate-in fade-in slide-in-from-top-2 duration-150">
+            <span className="w-2 h-2 rounded-full bg-orange-400 animate-ping" />
+            <span>Pan & zoom map to center your spot</span>
+          </div>
+
+          {/* Center Crosshair Fixed Pin (Rapido Style) */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-full z-[500] pointer-events-none flex flex-col items-center select-none pb-0.5">
+            {/* Target Label Bubble */}
+            <div
+              className={`px-2.5 py-0.5 rounded-full text-[10px] font-black text-white shadow-lg mb-1 tracking-wide uppercase ${
+                pinDropTarget === "source"
+                  ? "bg-[#0D9488] ring-2 ring-teal-200"
+                  : "bg-[#F97316] ring-2 ring-orange-200"
+              }`}
+            >
+              {pinDropTarget === "source" ? "Pickup Spot" : "Drop Spot"}
+            </div>
+
+            {/* Custom SVG Pin Marker */}
+            <div className="relative">
+              <svg
+                width="40"
+                height="48"
+                viewBox="0 0 24 28"
+                fill="none"
+                className={`drop-shadow-xl ${
+                  pinDropTarget === "source"
+                    ? "text-[#0D9488]"
+                    : "text-[#F97316]"
+                }`}
+              >
+                <path
+                  d="M12 0C5.373 0 0 5.373 0 12c0 9 12 16 12 16s12-7 12-16c0-6.627-5.373-12-12-12z"
+                  fill="currentColor"
+                />
+                <circle cx="12" cy="11" r="5" fill="white" />
+                <circle
+                  cx="12"
+                  cy="11"
+                  r="2.5"
+                  fill={pinDropTarget === "source" ? "#0D9488" : "#F97316"}
+                />
+              </svg>
+              {/* Ripple / Ground Dot */}
+              <div className="w-3.5 h-1.5 bg-black/45 rounded-full mx-auto -mt-1 blur-[1px]" />
+            </div>
+          </div>
+        </>
       )}
     </div>
   );

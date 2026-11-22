@@ -1,6 +1,7 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import {
   ShieldCheck,
   User,
@@ -11,13 +12,35 @@ import {
   RefreshCw,
   LogOut,
   ChevronRight,
+  Camera,
 } from "lucide-react";
+import { getStoredUser, clearStoredUser, DEMO_VERIFIED_USER, UserProfile } from "@/lib/auth";
 
 interface ProfileTabProps {
   onResetDemo: () => void;
 }
 
 export default function ProfileTab({ onResetDemo }: ProfileTabProps) {
+  const router = useRouter();
+  const [user, setUser] = useState<UserProfile>(DEMO_VERIFIED_USER);
+
+  useEffect(() => {
+    const stored = getStoredUser();
+    if (stored) setUser(stored);
+  }, []);
+
+  const handleLogout = () => {
+    clearStoredUser();
+    router.push("/login");
+  };
+
+  const initials = user.name
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase() || "SM";
+
   return (
     <div className="space-y-4 px-4 pt-3 pb-8">
       {/* Profile Card */}
@@ -25,25 +48,25 @@ export default function ProfileTab({ onResetDemo }: ProfileTabProps) {
         <div className="flex items-center gap-4">
           <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-teal-600 to-orange-400 p-0.5 flex items-center justify-center shadow-md">
             <div className="w-full h-full rounded-2xl bg-teal-50 flex items-center justify-center text-teal-800 text-xl font-black">
-              AR
+              {initials}
             </div>
           </div>
 
           <div className="space-y-1">
             <div className="flex items-center gap-1.5">
               <h3 className="text-base font-extrabold text-slate-900">
-                Aditi Rao
+                {user.name}
               </h3>
               <span className="text-[10px] font-extrabold text-teal-800 bg-teal-50 px-2 py-0.5 rounded-full border border-teal-200 flex items-center gap-0.5">
                 <ShieldCheck className="w-3 h-3 text-teal-600" />
-                Verified
+                Selfie Verified
               </span>
             </div>
             <p className="text-xs text-slate-500 font-medium">
-              Student & Tech Fellow • MANIT Bhopal
+              {user.organization || "Verified Commuter • Bhopal Hub"}
             </p>
             <div className="flex items-center gap-2 text-[10px] text-slate-400 pt-0.5">
-              <span>Member since Aug 2025</span>
+              <span>{user.email}</span>
               <span>•</span>
               <span className="text-emerald-600 font-bold">100% Trust Score</span>
             </div>
@@ -136,13 +159,29 @@ export default function ProfileTab({ onResetDemo }: ProfileTabProps) {
         </div>
       </div>
 
-      {/* Pilot Controls */}
-      <div className="pt-2">
+      {/* Account & Pilot Controls */}
+      <div className="pt-2 space-y-2">
+        <button
+          onClick={() => router.push("/login")}
+          className="w-full py-2.5 px-4 rounded-xl border border-teal-200 bg-teal-50 hover:bg-teal-100/80 text-teal-800 text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer"
+        >
+          <Camera className="w-3.5 h-3.5 text-teal-600" />
+          <span>Re-verify Face AI Identity</span>
+        </button>
+
+        <button
+          onClick={handleLogout}
+          className="w-full py-2.5 px-4 rounded-xl border border-rose-200 bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer"
+        >
+          <LogOut className="w-3.5 h-3.5 text-rose-600" />
+          <span>Log Out of SaheliMile</span>
+        </button>
+
         <button
           onClick={onResetDemo}
-          className="w-full py-3 px-4 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer"
+          className="w-full py-2.5 px-4 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 text-xs font-semibold transition-all flex items-center justify-center gap-2 cursor-pointer"
         >
-          <RefreshCw className="w-3.5 h-3.5 text-slate-500" />
+          <RefreshCw className="w-3.5 h-3.5 text-slate-400" />
           <span>Reset Pilot Evaluation Cache</span>
         </button>
       </div>

@@ -1,6 +1,9 @@
-import React from "react";
+"use client";
+
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import RouteOverlapPreview from "@/components/landing/RouteOverlapPreview";
+import InteractiveGuideModal from "@/components/guide/InteractiveGuideModal";
 import {
   ShieldCheck,
   MapPin,
@@ -16,9 +19,135 @@ import {
   ChevronRight,
   AlertTriangle,
   Download,
+  Camera,
+  Eye,
+  Crosshair,
+  FileText,
+  ShieldAlert,
+  Radio,
+  BookOpen,
 } from "lucide-react";
+import { getStoredUser } from "@/lib/auth";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function LandingPage() {
+  const { language, setLanguage } = useLanguage();
+  const [isVerified, setIsVerified] = useState(false);
+  const [userName, setUserName] = useState<string | null>(null);
+
+  // Guide Modal State
+  const [isGuideOpen, setIsGuideOpen] = useState(false);
+  const [guideInitialStep, setGuideInitialStep] = useState(0);
+
+  const openGuideAtStep = (stepIdx: number) => {
+    setGuideInitialStep(stepIdx);
+    setIsGuideOpen(true);
+  };
+
+  useEffect(() => {
+    const user = getStoredUser();
+    if (user && user.verified) {
+      setIsVerified(true);
+      setUserName(user.name);
+    }
+  }, []);
+
+  const primaryTarget = isVerified ? "/app" : "/login";
+
+  // 6 Micro-Feature Showcase Cards Definition
+  const FEATURE_SHOWCASE_ITEMS = [
+    {
+      step: 1,
+      badge: language === "hi" ? "बायोमेट्रिक सुरक्षा" : "Biometric AI",
+      title:
+        language === "hi"
+          ? "एंटी-स्पूफिंग 3-ब्लिंक फेस वेरिफिकेशन"
+          : "Anti-Spoofing 3-Blink Face AI Login",
+      desc:
+        language === "hi"
+          ? "68 फेशियल लैंडमार्क और EAR डिटेक्शन द्वारा 3 बार पलक झपकाने की पुष्टि। फोटो स्पूफिंग पूरी तरह ब्लॉक और डेटा 100% ऑन-डिवाइस।"
+          : "Real front-camera Eye Aspect Ratio (EAR) 3-blink detection that blocks static photo spoofing while keeping biometric data 100% client-side.",
+      icon: Eye,
+      accentBg: "bg-teal-50 text-[#0D9488] border-teal-200",
+      route: "/login",
+    },
+    {
+      step: 2,
+      badge: language === "hi" ? "अखिल भारतीय खोज" : "Pan-India Dual Search",
+      title:
+        language === "hi"
+          ? "डुअल फ़ज़ी सर्च व मैप पिन-ड्रॉप"
+          : "Pan-India Dual Search & Map Pin-Drop",
+      desc:
+        language === "hi"
+          ? "फ़ोटॉन + नोमिनेटिम इंजन से स्थानीय मिठाई दुकानों व मेट्रो गेटों की खोज, 1-टैप GPS पिकअप और रैपिडो-स्टाइल इंटरैक्टिव पिन-ड्रॉप।"
+          : "Parallel Photon + OSM Nominatim search for hyper-local shops, 1-tap live GPS pickup, and Rapido-style interactive crosshair pin-drop.",
+      icon: Crosshair,
+      accentBg: "bg-orange-50 text-[#F97316] border-orange-200",
+      route: "/app",
+    },
+    {
+      step: 3,
+      badge: language === "hi" ? "उचित किराया" : "Fair Pricing & Routing",
+      title:
+        language === "hi"
+          ? "OSRM सड़क रूट व 'ड्राईवर को दिखाएं' कार्ड"
+          : "Real-Road OSRM Routing & 'Show Driver Card'",
+      desc:
+        language === "hi"
+          ? "सड़क मार्ग के आधार पर 50/50 तय किराया, गेट पर पहचान हेतु 4-अंकीय सहेली पिन और मोलभाव खत्म करने वाला द्विभाषी ड्राईवर कार्ड।"
+          : "Exact road distance via OSRM, 50/50 fair meter split, 4-digit mutual Saheli PIN, and a large Hindi/English driver card that stops haggling.",
+      icon: FileText,
+      accentBg: "bg-emerald-50 text-emerald-700 border-emerald-200",
+      route: "/app?demo=true",
+    },
+    {
+      step: 4,
+      badge: language === "hi" ? "कम्युनिटी लेजर" : "Community Trust",
+      title:
+        language === "hi"
+          ? "कम्युनिटी ऑटो सुरक्षा लेजर (Crowdsourced)"
+          : "Crowdsourced Community Auto Ledger",
+      desc:
+        language === "hi"
+          ? "बिना किसी फिजिकल QR स्टिकर के किसी भी ऑटो प्लेट (MP-04-4821) की सुरक्षा जांचें और यात्रा के बाद 1-टैप व्यवहार रेटिंग लेजर में जोड़ें।"
+          : "Search any auto registration plate before boarding to view masked numbers & ratings, and log safety reviews with zero physical QR stickers on Day 1.",
+      icon: QrCode,
+      accentBg: "bg-amber-50 text-amber-700 border-amber-200",
+      route: "/app",
+    },
+    {
+      step: 5,
+      badge: language === "hi" ? "ट्रिप हैंडशेक" : "Handover & Live View",
+      title:
+        language === "hi"
+          ? "सेफ-ड्रॉप हैंडशेक व लाइव गार्डियन ट्रैकिंग"
+          : "Safe-Drop Handshake & Live Guardian View",
+      desc:
+        language === "hi"
+          ? "पहली सहेली के उतरते ही कम्फर्ट गार्डियन मोड चालू होता है। परिजनों के लिए 1-टैप व्हाट्सएप लाइव ट्रैकिंग लिंक (/track/pilot-ride-01)।"
+          : "2-stage trip progression with timestamped handover alert when Rider 1 drops, plus 1-tap WhatsApp live tracking for family and guardians.",
+      icon: HeartHandshake,
+      accentBg: "bg-teal-50 text-teal-800 border-teal-200",
+      route: "/track/pilot-ride-01",
+    },
+    {
+      step: 6,
+      badge: language === "hi" ? "आपातकालीन बैकअप" : "Emergency & Offline",
+      title:
+        language === "hi"
+          ? "24×7 सेफ-हेवन शील्ड, हिंदी UX व ऑफलाइन कैश"
+          : "24×7 Safe-Havens, Bilingual UX & Offline Cache",
+      desc:
+        language === "hi"
+          ? "निकटतम RPF/थाना सेफ-हेवन की 1-टैप कॉल सूची, एक क्लिक में हिंदी भाषा बदलाव और कमजोर नेटवर्क में ट्रिप सेव रखने वाला ऑफलाइन कैश।"
+          : "Nearest RPF/police 24×7 shelter lookup with 1-tap call, instant EN | हिंदी switching, and full localStorage offline trip persistence.",
+      icon: ShieldAlert,
+      accentBg: "bg-rose-50 text-rose-700 border-rose-200",
+      route: "/app",
+    },
+  ];
+
   return (
     <div className="min-h-screen bg-[#FFFBEB] text-[#0F172A] flex flex-col selection:bg-[#0D9488]/20 selection:text-[#0D9488]">
       {/* Top Banner for Buildathon */}
@@ -50,12 +179,16 @@ export default function LandingPage() {
             </div>
           </Link>
 
-          <nav className="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-700">
+          <nav className="hidden lg:flex items-center gap-7 text-sm font-semibold text-slate-700">
             <a href="#problem" className="hover:text-[#0D9488] transition-colors">
               The Last-Mile Gap
             </a>
             <a href="#how-it-works" className="hover:text-[#0D9488] transition-colors">
               How It Works
+            </a>
+            <a href="#features-guide" className="hover:text-[#0D9488] transition-colors flex items-center gap-1 text-[#0D9488]">
+              <Sparkles className="w-3.5 h-3.5 text-[#F97316]" />
+              <span>Feature Guide</span>
             </a>
             <a href="#safety" className="hover:text-[#0D9488] transition-colors">
               Safety Architecture
@@ -70,12 +203,57 @@ export default function LandingPage() {
             </a>
           </nav>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
+            {/* Bilingual Switcher (EN | हिंदी) */}
+            <div className="flex items-center bg-white/80 p-0.5 rounded-full border border-slate-300 shadow-2xs text-[10px] font-extrabold">
+              <button
+                type="button"
+                onClick={() => setLanguage("en")}
+                className={`px-2 py-1 rounded-full transition-all cursor-pointer ${
+                  language === "en"
+                    ? "bg-[#0D9488] text-white shadow-2xs"
+                    : "text-slate-600 hover:text-slate-900"
+                }`}
+              >
+                EN
+              </button>
+              <button
+                type="button"
+                onClick={() => setLanguage("hi")}
+                className={`px-2 py-1 rounded-full transition-all cursor-pointer ${
+                  language === "hi"
+                    ? "bg-[#0D9488] text-white shadow-2xs"
+                    : "text-slate-600 hover:text-slate-900"
+                }`}
+              >
+                हिंदी
+              </button>
+            </div>
+
+            {/* App Guide Entry Button */}
+            <button
+              type="button"
+              onClick={() => openGuideAtStep(0)}
+              className="hidden sm:inline-flex items-center gap-1.5 text-xs font-bold text-teal-900 bg-teal-50 hover:bg-teal-100/90 border border-teal-300/80 px-3 py-2 rounded-full transition-all cursor-pointer shadow-2xs hover:shadow-sm"
+              title="Open Interactive Feature Tutorial"
+            >
+              <BookOpen className="w-3.5 h-3.5 text-[#0D9488]" />
+              <span>{language === "hi" ? "ऐप गाइड" : "App Guide"}</span>
+            </button>
+
             <Link
-              href="/app"
+              href="/login"
+              className="hidden md:inline-flex items-center gap-1.5 text-xs font-bold text-slate-700 hover:text-teal-700 px-3 py-2 rounded-full border border-slate-300 hover:bg-amber-100/50 transition-colors"
+            >
+              <Camera className="w-3.5 h-3.5 text-[#0D9488]" />
+              <span>{isVerified ? "Re-verify Face" : "Verify Account"}</span>
+            </Link>
+
+            <Link
+              href={primaryTarget}
               className="inline-flex items-center gap-2 bg-[#0D9488] hover:bg-[#0f766e] text-white text-xs sm:text-sm font-bold py-2.5 px-4 sm:px-5 rounded-full shadow-md shadow-teal-800/15 transition-all hover:shadow-teal-800/25 active:scale-95"
             >
-              <span>Launch App</span>
+              <span>{isVerified ? "Launch App (/app)" : "Launch App"}</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
@@ -121,14 +299,32 @@ export default function LandingPage() {
               </div>
 
               {/* CTAs */}
-              <div className="pt-4 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4">
+              <div className="pt-4 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4 flex-wrap">
                 <Link
-                  href="/app"
+                  href={primaryTarget}
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 bg-[#0D9488] hover:bg-[#0f766e] text-white font-extrabold text-base py-3.5 px-7 rounded-2xl shadow-xl shadow-teal-900/20 hover:shadow-teal-900/30 transition-all hover:-translate-y-0.5 active:scale-95"
                 >
-                  <span>Launch SaheliMile App</span>
+                  <span>
+                    {isVerified
+                      ? `Continue as ${userName?.split(" ")[0]} →`
+                      : "Get Started (Live Face AI Verification)"}
+                  </span>
                   <ArrowRight className="w-4 h-4" />
                 </Link>
+
+                {/* Secondary Interactive Tutorial Button */}
+                <button
+                  type="button"
+                  onClick={() => openGuideAtStep(0)}
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-amber-50 hover:bg-amber-100 text-teal-900 font-extrabold text-sm py-3.5 px-6 rounded-2xl border-2 border-teal-400/80 shadow-sm transition-all cursor-pointer active:scale-95 hover:border-teal-500"
+                >
+                  <Sparkles className="w-4 h-4 text-[#F97316]" />
+                  <span>
+                    {language === "hi"
+                      ? "फ़ीचर ट्यूटोरियल (6 स्टेप्स)"
+                      : "Interactive Tutorial (6 Steps)"}
+                  </span>
+                </button>
 
                 <Link
                   href="/app?demo=true"
@@ -152,66 +348,328 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Problem & Survey Stats Section */}
-      <section id="problem" className="py-16 sm:py-20 bg-white border-y border-amber-200/50 px-4 sm:px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center max-w-2xl mx-auto space-y-3">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#F97316] bg-orange-50 px-3 py-1 rounded-full border border-orange-200">
-              The Urban Commuter Reality
+      {/* Primary Commuter Research & Pilot Survey Findings (N = 13 Verified Commuters) */}
+      <section id="problem" className="py-16 sm:py-24 bg-white border-y border-amber-200/50 px-4 sm:px-6">
+        <div className="max-w-6xl mx-auto space-y-12">
+          {/* Section Header with Transparent Sample Badge */}
+          <div className="text-center max-w-3xl mx-auto space-y-3.5">
+            <div className="flex flex-wrap items-center justify-center gap-2">
+              <span className="text-xs font-black uppercase tracking-wider text-[#F97316] bg-orange-50 px-3 py-1 rounded-full border border-orange-200 flex items-center gap-1.5 shadow-2xs">
+                <span className="w-2 h-2 rounded-full bg-[#F97316] animate-pulse" />
+                <span>
+                  {language === "hi"
+                    ? "प्राथमिक पायलट सर्वेक्षण (N = 13 सत्यापित दैनिक यात्री)"
+                    : "Primary Pilot Survey (N = 13 Verified Commuters)"}
+                </span>
+              </span>
+
+              <span className="text-[11px] font-bold text-teal-800 bg-teal-50 px-2.5 py-1 rounded-full border border-teal-200">
+                {language === "hi"
+                  ? "सैंपल: 53.8% महिलाएं • 46.2% पुरुष"
+                  : "Demographics: 53.8% Female • 46.2% Male"}
+              </span>
+            </div>
+
+            <h2 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight">
+              {language === "hi"
+                ? "अंतिम 1.5 किमी का जमीनी सर्वेक्षण डेटा"
+                : "Real Commuter Data Behind the Last-Mile Gap"}
+            </h2>
+
+            <p className="text-sm sm:text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
+              {language === "hi"
+                ? "रात 8 बजे के बाद भोपाल व टियर-2 स्टेशनों (रानी कमलापति, एम्स मेट्रो) से घर लौटने वाले वास्तविक दैनिक यात्रियों से एकत्रित 100% सत्यापित डेटा।"
+                : "100% verified primary field data collected from urban commuters exiting railway and metro hubs after dark."}
+            </p>
+
+            {/* Google Form Link Button */}
+            <div className="pt-1">
+              <a
+                href="https://docs.google.com/forms/d/1edAnanUOB2yZp5y3EvPWA6jCQDE4mMzCH29rsy0SAQ4/viewform"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-[#0D9488] hover:text-[#0f766e] bg-teal-50/80 hover:bg-teal-100/80 border border-teal-200 px-3.5 py-1.5 rounded-full transition-all shadow-2xs hover:shadow-xs"
+              >
+                <span>
+                  {language === "hi"
+                    ? "लाइव Google फॉर्म सर्वेक्षण देखें / भाग लें"
+                    : "View Live Google Form Survey"}
+                </span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+            </div>
+          </div>
+
+          {/* 4 Core Quantitative Stat Cards (100% Real Field Data) */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Card 1: 92.4% Route Alteration */}
+            <div className="p-6 rounded-3xl bg-[#FFFBEB] border-2 border-orange-200/80 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+              <div className="space-y-3">
+                <div className="w-11 h-11 rounded-2xl bg-orange-100 text-[#F97316] flex items-center justify-center font-black">
+                  <AlertTriangle className="w-6 h-6" />
+                </div>
+                <div className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
+                  92.4%
+                </div>
+                <div className="text-xs font-mono font-bold text-[#F97316] -mt-2">
+                  (12 / 13 Commuters)
+                </div>
+                <h3 className="text-sm font-extrabold text-slate-800 leading-snug">
+                  {language === "hi"
+                    ? "रूट बदलना या रात 8 बजे बाद सफर रोकना"
+                    : "Route Alteration & Post-8 PM Travel Curtailment"}
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed font-normal">
+                  {language === "hi"
+                    ? "कम रोशनी, कम आवाजाही और असुरक्षित साधनों के कारण रात 8 बजे बाद अंदरूनी कॉलोनियों में जाने से बचते हैं या लंबा रास्ता लेते हैं।"
+                    : "Alter routes or curtail post-8:00 PM travel due to poor lighting, low footfall, or unreliable last-mile transit."}
+                </p>
+              </div>
+
+              <div className="mt-4 pt-3 border-t border-amber-200/60 text-[10px] font-bold text-orange-800 bg-orange-100/60 px-2.5 py-1.5 rounded-xl text-center">
+                46.2% Frequently • 46.2% Occasionally • 0% Unaffected
+              </div>
+            </div>
+
+            {/* Card 2: 77.0% Adoption Readiness */}
+            <div className="p-6 rounded-3xl bg-[#FFFBEB] border-2 border-teal-200/80 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+              <div className="space-y-3">
+                <div className="w-11 h-11 rounded-2xl bg-teal-100 text-[#0D9488] flex items-center justify-center font-black">
+                  <Users className="w-6 h-6" />
+                </div>
+                <div className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
+                  77.0%
+                </div>
+                <div className="text-xs font-mono font-bold text-[#0D9488] -mt-2">
+                  (10 / 13 Commuters)
+                </div>
+                <h3 className="text-sm font-extrabold text-slate-800 leading-snug">
+                  {language === "hi"
+                    ? "सत्यापित सह-यात्री साझा ऑटो अपनाने को तैयार"
+                    : "Ready to Adopt Verified Peer-Paired Auto"}
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed font-normal">
+                  {language === "hi"
+                    ? "सत्यापित पहचान व 50% किराया छूट के साथ स्टेशन से साझा ऑटो लेने के लिए तत्काल तैयार हैं।"
+                    : "Ready to adopt verified peer-paired shared transit with ~50% auto fare split."}
+                </p>
+              </div>
+
+              <div className="mt-4 pt-3 border-t border-amber-200/60 text-[10px] font-bold text-teal-800 bg-teal-100/70 px-2.5 py-1.5 rounded-xl text-center">
+                30.8% Very Likely • 46.2% Verified Protocol • 0% Unlikely
+              </div>
+            </div>
+
+            {/* Card 3: 38.5% Short Distance Refusals */}
+            <div className="p-6 rounded-3xl bg-[#FFFBEB] border-2 border-emerald-200/80 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+              <div className="space-y-3">
+                <div className="w-11 h-11 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-black">
+                  <IndianRupee className="w-6 h-6" />
+                </div>
+                <div className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
+                  38.5%
+                </div>
+                <div className="text-xs font-mono font-bold text-emerald-700 -mt-2">
+                  (5 / 13 Commuters)
+                </div>
+                <h3 className="text-sm font-extrabold text-slate-800 leading-snug">
+                  {language === "hi"
+                    ? "कम दूरी पर ऑटो चालकों का जाने से इनकार"
+                    : "Short-Distance Auto Refusal Friction"}
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed font-normal">
+                  {language === "hi"
+                    ? "स्टेशन से 1–2 किमी अंदरूनी कॉलोनियों में जाने से ऑटो चालकों का मना करना सबसे बड़ी स्टेशन बाधा बताया।"
+                    : "Cite short-distance auto driver refusals for interior residential drops as their #1 station friction point."}
+                </p>
+              </div>
+
+              <div className="mt-4 pt-3 border-t border-amber-200/60 text-[10px] font-bold text-emerald-800 bg-emerald-100/70 px-2.5 py-1.5 rounded-xl text-center">
+                #1 Station Friction • Solved by &apos;Show Driver Card&apos;
+              </div>
+            </div>
+
+            {/* Card 4: 53.9% Accountability & Dark Streets */}
+            <div className="p-6 rounded-3xl bg-[#FFFBEB] border-2 border-rose-200/80 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+              <div className="space-y-3">
+                <div className="w-11 h-11 rounded-2xl bg-rose-100 text-rose-700 flex items-center justify-center font-black">
+                  <ShieldAlert className="w-6 h-6" />
+                </div>
+                <div className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
+                  53.9%
+                </div>
+                <div className="text-xs font-mono font-bold text-rose-700 -mt-2">
+                  (7 / 13 Commuters)
+                </div>
+                <h3 className="text-sm font-extrabold text-slate-800 leading-snug">
+                  {language === "hi"
+                    ? "ड्राइवर जवाबदेही का अभाव व अंधेरी सड़कें"
+                    : "Driver Accountability & Dark Streets Barrier"}
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed font-normal">
+                  {language === "hi"
+                    ? "ड्राइवर की पहचान/लाइव विजिबिलिटी न होना (30.8%) और अंधेरी गलियां (23.1%) मुख्य सुरक्षा बाधा हैं।"
+                    : "Identify lack of driver accountability/live visibility (30.8%) and unlit interior roads (23.1%) as critical barriers."}
+                </p>
+              </div>
+
+              <div className="mt-4 pt-3 border-t border-amber-200/60 text-[10px] font-bold text-rose-800 bg-rose-100/70 px-2.5 py-1.5 rounded-xl text-center">
+                30.8% Accountability Gap • 23.1% Unlit Interior Roads
+              </div>
+            </div>
+          </div>
+
+          {/* Real Commuter Voices Quotes Showcase */}
+          <div className="bg-gradient-to-r from-amber-50/80 via-white to-teal-50/80 rounded-3xl p-6 sm:p-8 border border-amber-200/80 shadow-sm space-y-4">
+            <div className="flex items-center justify-between flex-wrap gap-2">
+              <span className="text-xs font-extrabold uppercase tracking-wider text-slate-600 flex items-center gap-1.5">
+                <Users className="w-4 h-4 text-[#0D9488]" />
+                <span>
+                  {language === "hi"
+                    ? "दैनिक यात्रियों की सीधी आवाजें (क्वालिटेटिव फीडबैक)"
+                    : "Real Commuter Voices (Qualitative Responses)"}
+                </span>
+              </span>
+              <span className="text-[10px] font-bold text-teal-800 bg-teal-100/80 px-2.5 py-0.5 rounded-full">
+                Primary Survey Field Submissions
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Quote 1 */}
+              <div className="p-4 rounded-2xl bg-white border border-teal-200/80 shadow-2xs space-y-2 relative">
+                <div className="text-2xl text-teal-600 font-serif leading-none select-none">
+                  “
+                </div>
+                <p className="text-xs sm:text-sm text-slate-700 italic leading-relaxed font-medium">
+                  {language === "hi"
+                    ? "ड्राइवर सत्यापन, लाइव ट्रिप ट्रैकिंग और आपातकालीन सहायता महिला यात्रियों को सफर के दौरान अधिक सुरक्षित और सहज महसूस कराएगी।"
+                    : "Driver verification, live trip tracking, and emergency support would help female commuters feel safer and more comfortable while travelling."}
+                </p>
+                <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px]">
+                  <span className="font-extrabold text-slate-900">
+                    — Primary Survey Respondent
+                  </span>
+                  <span className="text-[10px] text-teal-700 font-semibold bg-teal-50 px-2 py-0.5 rounded-full">
+                    Daily Transit Commuter
+                  </span>
+                </div>
+              </div>
+
+              {/* Quote 2 */}
+              <div className="p-4 rounded-2xl bg-white border border-orange-200/80 shadow-2xs space-y-2 relative">
+                <div className="text-2xl text-orange-500 font-serif leading-none select-none">
+                  “
+                </div>
+                <p className="text-xs sm:text-sm text-slate-700 italic leading-relaxed font-medium">
+                  {language === "hi"
+                    ? "सत्यापित सह-यात्रियों और कम्युनिटी-रेटेड ऑटो से अंतिम मील सुरक्षा का समाधान शानदार है — एक मजबूत यूजर बेस बनाने के लिए पहले किसी व्यस्त कॉलेज या ऑफिस मेट्रो स्टेशन से शुरुआत करें।"
+                    : "Solving last-mile safety with verified co-passengers and community-rated autos is brilliant—just start with one busy college or office metro station first to build a strong user base."}
+                </p>
+                <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px]">
+                  <span className="font-extrabold text-slate-900">
+                    — Primary Survey Respondent
+                  </span>
+                  <span className="text-[10px] text-orange-700 font-semibold bg-orange-50 px-2 py-0.5 rounded-full">
+                    College Student / Urban Commuter
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* NEW: Dedicated Feature Showcase Section (Step-by-Step Guide) */}
+      <section id="features-guide" className="py-16 sm:py-24 px-4 sm:px-6 bg-gradient-to-b from-[#FFFBEB] via-white to-[#FFFBEB]">
+        <div className="max-w-6xl mx-auto space-y-12">
+          <div className="text-center max-w-3xl mx-auto space-y-3">
+            <span className="text-xs font-black uppercase tracking-wider text-[#0D9488] bg-teal-50 px-3.5 py-1 rounded-full border border-teal-200">
+              {language === "hi"
+                ? "संपूर्ण प्रोडक्ट गाइड व तकनीक"
+                : "Comprehensive Product Tour"}
             </span>
-            <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-              The Dark Last 1.5 Kilometers
+            <h2 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight">
+              {language === "hi"
+                ? "सहेलीमाइल के हर फ़ीचर की कार्यप्रणाली"
+                : "How Every Feature Works (Step-by-Step Guide)"}
             </h2>
             <p className="text-sm sm:text-base text-slate-600">
-              Urban transit infrastructure ends at the station exit gate. For women returning home after dark, the final stretch carries steep penalties.
+              {language === "hi"
+                ? "जज और नए यात्रियों के लिए विस्तृत व इंटरैक्टिव तकनीकी विवरण। किसी भी कार्ड पर क्लिक करके डीप-डाइव ट्यूटोरियल खोलें।"
+                : "Click any micro-feature pill below to launch the interactive walkthrough modal with live UI mockups and direct testing links."}
             </p>
           </div>
 
-          <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="p-6 sm:p-7 rounded-3xl bg-[#FFFBEB] border border-amber-200/80 shadow-sm hover:shadow-md transition-shadow">
-              <div className="w-12 h-12 rounded-2xl bg-orange-100 flex items-center justify-center text-[#F97316] font-extrabold mb-4">
-                <AlertTriangle className="w-6 h-6" />
-              </div>
-              <div className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-                83%
-              </div>
-              <h3 className="mt-2 text-base font-bold text-slate-800">
-                Evening Anxiety Gap
-              </h3>
-              <p className="mt-2 text-xs sm:text-sm text-slate-600 leading-relaxed">
-                Of women surveyed in tier-1 and tier-2 transit cities alter routes or avoid stepping out after 8:30 PM due to unlit, unmonitored interior colony roads.
+          {/* 6 Clickable Feature Pills Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {FEATURE_SHOWCASE_ITEMS.map((item, idx) => {
+              const IconComp = item.icon;
+              return (
+                <div
+                  key={item.step}
+                  onClick={() => openGuideAtStep(idx)}
+                  className="p-6 rounded-3xl bg-white border border-amber-200/80 shadow-sm hover:shadow-xl hover:border-teal-400 transition-all cursor-pointer group flex flex-col justify-between relative overflow-hidden"
+                >
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <span className="w-8 h-8 rounded-xl bg-[#0D9488] text-white flex items-center justify-center font-extrabold text-xs shadow-sm">
+                        {item.step}
+                      </span>
+                      <span
+                        className={`text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full border ${item.accentBg}`}
+                      >
+                        {item.badge}
+                      </span>
+                    </div>
+
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-2">
+                        <IconComp className="w-5 h-5 text-[#0D9488] group-hover:text-[#F97316] transition-colors flex-shrink-0" />
+                        <h3 className="text-base font-extrabold text-slate-900 group-hover:text-teal-800 transition-colors">
+                          {item.title}
+                        </h3>
+                      </div>
+                      <p className="text-xs text-slate-600 leading-relaxed font-normal">
+                        {item.desc}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-teal-700 group-hover:text-teal-900">
+                    <span>{language === "hi" ? "ट्यूटोरियल खोलें" : "Open Tutorial"}</span>
+                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Launch Full Tour Banner */}
+          <div className="bg-gradient-to-r from-teal-800 via-teal-900 to-slate-900 rounded-3xl p-6 sm:p-8 text-white shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="space-y-1 text-center sm:text-left">
+              <h4 className="text-base sm:text-lg font-black tracking-tight flex items-center justify-center sm:justify-start gap-2">
+                <Sparkles className="w-4 h-4 text-orange-400" />
+                <span>
+                  {language === "hi"
+                    ? "क्या आप सभी 6 स्टेप्स एक साथ देखना चाहते हैं?"
+                    : "Ready to explore the full 6-step walkthrough?"}
+                </span>
+              </h4>
+              <p className="text-xs text-teal-200">
+                {language === "hi"
+                  ? "बायोमेट्रिक से लेकर सेफ-ड्रॉप हैंडशेक और 24×7 सेफ-हेवन तक हर फ़ीचर की लाइव जांच करें।"
+                  : "Explore facial liveness AI, dual search, driver cards, crowdsourced auto ledger, and live tracking."}
               </p>
             </div>
 
-            <div className="p-6 sm:p-7 rounded-3xl bg-[#FFFBEB] border border-amber-200/80 shadow-sm hover:shadow-md transition-shadow">
-              <div className="w-12 h-12 rounded-2xl bg-teal-100 flex items-center justify-center text-[#0D9488] font-extrabold mb-4">
-                <IndianRupee className="w-6 h-6" />
-              </div>
-              <div className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-                3x
-              </div>
-              <h3 className="mt-2 text-base font-bold text-slate-800">
-                Solo Last-Mile Fare Surge
-              </h3>
-              <p className="mt-2 text-xs sm:text-sm text-slate-600 leading-relaxed">
-                Auto and cab drivers charge predatory flat rates (₹100–₹150 for a 2 km hop) or refuse short interior drops, leaving commuters stranded at hub gates.
-              </p>
-            </div>
-
-            <div className="p-6 sm:p-7 rounded-3xl bg-[#FFFBEB] border border-amber-200/80 shadow-sm hover:shadow-md transition-shadow">
-              <div className="w-12 h-12 rounded-2xl bg-emerald-100 flex items-center justify-center text-emerald-700 font-extrabold mb-4">
-                <Users className="w-6 h-6" />
-              </div>
-              <div className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-                45,000+
-              </div>
-              <h3 className="mt-2 text-base font-bold text-slate-800">
-                Isolated Commuters Daily
-              </h3>
-              <p className="mt-2 text-xs sm:text-sm text-slate-600 leading-relaxed">
-                Thousands of women exit transit points like Rani Kamalapati Station simultaneously heading to the same residential colonies without any pairing mechanism.
-              </p>
-            </div>
+            <button
+              type="button"
+              onClick={() => openGuideAtStep(0)}
+              className="bg-[#F97316] hover:bg-orange-600 text-white font-extrabold text-xs sm:text-sm py-3 px-6 rounded-2xl shadow-md transition-all active:scale-95 flex items-center gap-1.5 cursor-pointer flex-shrink-0"
+            >
+              <span>{language === "hi" ? "पूरा गाइड शुरू करें →" : "Start Guided Tour →"}</span>
+            </button>
           </div>
         </div>
       </section>
@@ -394,9 +852,26 @@ export default function LandingPage() {
                 <Download className="w-3.5 h-3.5" />
                 <span>Download Brand Kit (PDF)</span>
               </a>
+              <a
+                href="https://docs.google.com/forms/d/1edAnanUOB2yZp5y3EvPWA6jCQDE4mMzCH29rsy0SAQ4/viewform"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 hover:text-white transition-colors text-amber-300 font-semibold"
+              >
+                <ExternalLink className="w-3.5 h-3.5" />
+                <span>Primary Commuter Survey (Google Form)</span>
+              </a>
               <Link href="/app" className="block hover:text-white transition-colors">
                 Pilot PWA Web App (/app)
               </Link>
+              <button
+                type="button"
+                onClick={() => openGuideAtStep(0)}
+                className="flex items-center gap-1.5 text-orange-400 hover:text-orange-300 font-semibold cursor-pointer"
+              >
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>Interactive Feature Guide (6 Steps)</span>
+              </button>
             </div>
           </div>
         </div>
@@ -410,6 +885,13 @@ export default function LandingPage() {
           <span className="font-semibold text-teal-400">#BuildForMyCity #CityFixChallenge</span>
         </div>
       </footer>
+
+      {/* 6-Step Interactive Feature Walkthrough Modal */}
+      <InteractiveGuideModal
+        isOpen={isGuideOpen}
+        onClose={() => setIsGuideOpen(false)}
+        initialStep={guideInitialStep}
+      />
     </div>
   );
 }

@@ -121,6 +121,12 @@ export default function ActiveRideTab({
         driver,
         coRider: rider,
         originHub: hub,
+        mainRider: {
+          ...DEFAULT_PILOT_RIDE.mainRider,
+          destinationName: dest.name,
+        },
+        dest,
+        distanceRemainingKm: Math.min(1.2, Number((dest.distanceKm * 0.25).toFixed(1))),
         stage,
         handoverTimestamp,
         language,
@@ -129,7 +135,7 @@ export default function ActiveRideTab({
     } catch {
       // LocalStorage access safe fallback
     }
-  }, [stage, driver, rider, hub, handoverTimestamp, saheliPin, language]);
+  }, [stage, driver, rider, hub, dest, handoverTimestamp, saheliPin, language]);
 
   const handleTriggerHandshake = () => {
     const now = new Date();

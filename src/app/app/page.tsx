@@ -75,7 +75,8 @@ function MobileAppShell() {
       <div className="w-full max-w-md min-h-screen bg-[#FFFBEB] shadow-2xl border-x border-slate-200/80 flex flex-col relative pb-20">
         {/* Top App Bar with Pilot Banner */}
         <TopBar
-          activeHubName={currentHub.name}
+          activeHubName={currentHub.shortName || currentHub.name}
+          activeCity={currentHub.city || "India"}
           isPilotMode={isPilotMode}
           onTogglePilot={() => setIsPilotMode((prev) => !prev)}
         />

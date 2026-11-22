@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   ShieldCheck,
   MapPin,
@@ -15,23 +16,44 @@ import {
   CheckCircle2,
   Lock,
   ExternalLink,
+  LogOut,
+  User,
 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { PILOT_SAFE_HAVENS } from "@/lib/data/pilotData";
+import { getStoredUser, clearStoredUser, DEMO_VERIFIED_USER, UserProfile } from "@/lib/auth";
 
 interface TopBarProps {
   activeHubName: string;
+  activeCity?: string;
   isPilotMode: boolean;
   onTogglePilot: () => void;
 }
 
 export default function TopBar({
   activeHubName,
+  activeCity,
   isPilotMode,
   onTogglePilot,
 }: TopBarProps) {
+  const router = useRouter();
   const { language, setLanguage, t } = useLanguage();
   const [isSafeHavensOpen, setIsSafeHavensOpen] = useState(false);
+  const [user, setUser] = useState<UserProfile>(DEMO_VERIFIED_USER);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const stored = getStoredUser();
+    if (stored) {
+      setUser(stored);
+    }
+  }, []);
+
+  const handleLogout = () => {
+    clearStoredUser();
+    setIsUserMenuOpen(false);
+    router.push("/login");
+  };
 
   return (
     <>
@@ -94,8 +116,8 @@ export default function TopBar({
                 <span className="font-extrabold text-slate-900 text-sm tracking-tight">
                   Saheli<span className="text-[#0D9488]">Mile</span>
                 </span>
-                <span className="text-[10px] bg-teal-100 text-teal-800 font-bold px-1.5 py-0.2 rounded">
-                  {t("bhopalHub")}
+                <span className="text-[10px] bg-teal-100 text-teal-800 font-bold px-1.5 py-0.2 rounded truncate max-w-[80px]">
+                  {activeCity || t("bhopalHub")}
                 </span>
               </div>
               <div className="flex items-center gap-1 text-[11px] text-slate-500 font-medium truncate max-w-[170px]">
@@ -105,10 +127,74 @@ export default function TopBar({
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5">
+            {/* User Profile & Selfie Verified Pill */}
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                className="flex items-center gap-1.5 py-1 px-2 rounded-xl bg-teal-50 hover:bg-teal-100/80 border border-teal-200 transition-all cursor-pointer text-left active:scale-95 shadow-xs"
+              >
+                <div className="w-6 h-6 rounded-lg bg-[#0D9488] text-white font-black text-[10px] flex items-center justify-center shadow-xs">
+                  {user.name.charAt(0).toUpperCase()}
+                </div>
+                <div className="leading-none">
+                  <div className="text-[11px] font-black text-slate-900 truncate max-w-[70px]">
+                    {user.name.split(" ")[0]}
+                  </div>
+                  <div className="text-[8px] font-extrabold text-emerald-700 flex items-center gap-0.5 mt-0.5">
+                    <ShieldCheck className="w-2.5 h-2.5 text-emerald-600 flex-shrink-0" />
+                    <span>{t("selfieVerified")}</span>
+                  </div>
+                </div>
+              </button>
+
+              {/* User Popover / Dropdown Menu */}
+              {isUserMenuOpen && (
+                <div className="absolute right-0 top-full mt-2 w-56 bg-white rounded-2xl shadow-2xl border border-slate-200 p-3.5 space-y-3 z-50 animate-in fade-in zoom-in-95">
+                  <div className="border-b border-slate-100 pb-2.5 space-y-1">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-black text-slate-900">{user.name}</span>
+                      <span className="text-[9px] bg-emerald-100 text-emerald-800 font-extrabold px-1.5 py-0.2 rounded">
+                        {user.gender === "female" ? "Female" : "Verified"}
+                      </span>
+                    </div>
+                    <div className="text-[10px] text-slate-500 truncate">{user.email}</div>
+                    <div className="inline-flex items-center gap-1 text-[9px] font-extrabold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200 mt-1">
+                      <ShieldCheck className="w-3 h-3 text-emerald-600" />
+                      <span>{t("verifiedFemaleCommuter")}</span>
+                    </div>
+                  </div>
+
+                  <div className="text-[10px] text-slate-500 font-medium space-y-0.5">
+                    <div>
+                      <span>Method: </span>
+                      <strong className="text-slate-800 font-bold">
+                        {user.verificationMethod === "face-ai" ? "Live Face-AI Camera" : "Judge Demo Bypass"}
+                      </strong>
+                    </div>
+                    {user.confidence && (
+                      <div className="text-emerald-700 font-bold">
+                        Confidence: {Math.round(user.confidence * 100)}%
+                      </div>
+                    )}
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={handleLogout}
+                    className="w-full py-2 px-3 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-bold transition-colors cursor-pointer flex items-center justify-center gap-1.5 border border-rose-200"
+                  >
+                    <LogOut className="w-3.5 h-3.5" />
+                    <span>{t("logoutBtn")}</span>
+                  </button>
+                </div>
+              )}
+            </div>
+
             <button
               onClick={onTogglePilot}
-              className={`px-2.5 py-1.5 rounded-xl text-[11px] font-bold flex items-center gap-1 shadow-sm transition-all cursor-pointer ${
+              className={`px-2 py-1.5 rounded-xl text-[10px] font-bold flex items-center gap-1 shadow-sm transition-all cursor-pointer ${
                 isPilotMode
                   ? "bg-amber-100 text-amber-900 border border-amber-300"
                   : "bg-slate-100 text-slate-700 hover:bg-slate-200"
