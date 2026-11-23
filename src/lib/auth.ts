@@ -4,7 +4,7 @@ export interface UserProfile {
   gender: "female" | "male" | "other";
   verified: boolean;
   verifiedAt: string;
-  verificationMethod: "face-ai" | "demo-bypass";
+  verificationMethod: "face-ai" | "demo-bypass" | "institutional-id";
   confidence?: number;
   avatarUrl?: string;
   organization?: string;

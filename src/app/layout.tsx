@@ -5,15 +5,17 @@ import { LanguageProvider } from "@/context/LanguageContext";
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
   themeColor: "#0D9488",
 };
 
 export const metadata: Metadata = {
-  title: "SaheliMile — Safe, Shared Last-Mile Commutes for Women",
+  metadataBase: new URL("https://sahelimile.vercel.app"),
+  title: {
+    default: "SaheliMile — Safe, Shared Last-Mile Commutes for Women",
+    template: "%s | SaheliMile",
+  },
   description:
-    "SaheliMile connects verified women commuters exiting the same transit hub along overlapping routes with community-vouched autos and automated Safe-Drop Handshake.",
+    "SaheliMile connects verified women commuters exiting transit hubs along overlapping routes with community-vouched autos and automated Safe-Drop Handshake.",
   keywords: [
     "women safety",
     "last-mile commute",
@@ -21,13 +23,31 @@ export const metadata: Metadata = {
     "Bhopal transit",
     "safe commute",
     "CityFix Buildathon",
+    "women shared mobility",
   ],
   authors: [{ name: "SaheliMile Team" }],
+  creator: "SaheliMile Team",
+  publisher: "SaheliMile",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
     title: "SaheliMile",
+  },
+  openGraph: {
+    title: "SaheliMile — Safe, Shared Last-Mile Commutes for Women",
+    description:
+      "Smart transit-hub pairing for women commuters with community-vouched autos and automated Safe-Drop Handshake.",
+    url: "https://sahelimile.vercel.app",
+    siteName: "SaheliMile",
+    locale: "en_IN",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "SaheliMile — Safe, Shared Last-Mile Commutes for Women",
+    description:
+      "Connecting verified women commuters exiting transit hubs along overlapping corridors with 50% fare split.",
   },
   icons: {
     icon: "/icon.svg",

@@ -34,6 +34,7 @@ interface InteractiveGuideModalProps {
   isOpen: boolean;
   onClose: () => void;
   initialStep?: number;
+  lang?: "en" | "hi";
 }
 
 interface GuideStep {
@@ -58,8 +59,17 @@ export default function InteractiveGuideModal({
   isOpen,
   onClose,
   initialStep = 0,
+  lang,
 }: InteractiveGuideModalProps) {
-  const { language, setLanguage } = useLanguage();
+  const { language: contextLang, setLanguage } = useLanguage();
+  const language = lang || contextLang;
+
+  useEffect(() => {
+    if (lang && lang !== contextLang) {
+      setLanguage(lang);
+    }
+  }, [lang, contextLang, setLanguage]);
+
   const [currentStep, setCurrentStep] = useState(initialStep);
 
   // Sync initialStep when modal opens

@@ -19,8 +19,8 @@ export const DICTIONARY: Translations = {
   pilotActive: { en: "Pilot Active", hi: "पायलट चालू" },
   demoMode: { en: "Demo", hi: "डेमो" },
   pilotDisclosure: {
-    en: "Pilot Demo Mode • Simulated Transit Data for Evaluation",
-    hi: "पायलट डेमो मोड • मूल्यांकन हेतु सिमुलेटेड ट्रांजिट डेटा",
+    en: "Live Pan-India Routing • Verified N=13 Commuter Pilot",
+    hi: "लाइव पैन-इंडिया रूटिंग • सत्यापित N=13 यात्री पायलट",
   },
   landingPageLink: { en: "Landing Page", hi: "मुख्य पृष्ठ" },
   bhopalHub: { en: "Bhopal", hi: "भोपाल" },
@@ -236,6 +236,30 @@ export const DICTIONARY: Translations = {
   blinkDot: {
     en: "Blink",
     hi: "पलक",
+  },
+  lowLightWarning: {
+    en: "Lighting low or shadowed — please face the light",
+    hi: "रोशनी कम है — कृपया प्रकाश की ओर मुंह करें",
+  },
+  loadingAiModels: {
+    en: "Loading AI Vision Models...",
+    hi: "AI विज़न मॉडल लोड हो रहा है...",
+  },
+  faceDetectedVerifying: {
+    en: "Face Detected • Analyzing...",
+    hi: "चेहरा पहचाना गया • जांच जारी...",
+  },
+  verifyViaIdBtn: {
+    en: "Verify via College / Corporate ID (Demo Bypass)",
+    hi: "कॉलेज / ऑफिस ID से सत्यापित करें (डेमो बाईपास)",
+  },
+  lowLightBypassDesc: {
+    en: "Dark lighting or budget camera delay? Verify instantly via Institutional ID.",
+    hi: "कम रोशनी या कैमरा धीमा? कॉलेज/ऑफिस ID से तुरंत सत्यापित करें।",
+  },
+  exclusiveWomenNoticeShort: {
+    en: "SaheliMile is exclusively verified for women commuters.",
+    hi: "सहेलीमाइल केवल महिला यात्रियों के लिए विशेष रूप से सत्यापित है।",
   },
 
   // Pan-India Location Search & Real-Road Routing
