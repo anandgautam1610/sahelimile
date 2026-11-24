@@ -24,6 +24,9 @@ import {
   FileText,
   ShieldAlert,
   BookOpen,
+  Mail,
+  User,
+  AtSign,
 } from "lucide-react";
 import { getStoredUser } from "@/lib/auth";
 import { useLanguage } from "@/context/LanguageContext";
@@ -199,6 +202,9 @@ export default function LandingPage() {
             </a>
             <a href="#safety" className="hover:text-[#0D9488] transition-colors">
               {language === "hi" ? "सुरक्षा प्रणाली" : "Safety Architecture"}
+            </a>
+            <a href="#contact" className="hover:text-[#0D9488] transition-colors">
+              {language === "hi" ? "संपर्क" : "Contact"}
             </a>
             <a
               href="https://github.com/anandgautam1610/sahelimile.git"
@@ -900,23 +906,247 @@ export default function LandingPage() {
             </div>
           </div>
         </section>
+
+        {/* Contact & Pilot Support Section */}
+        <section
+          id="contact"
+          className="py-14 sm:py-20 bg-gradient-to-b from-[#FFFBEB] via-white to-[#FFFBEB] border-t border-amber-200/60 px-4 sm:px-6"
+        >
+          <div className="max-w-5xl mx-auto space-y-8">
+            <div className="text-center max-w-2xl mx-auto space-y-2.5">
+              <div className="inline-flex items-center gap-1.5 bg-teal-50 border border-teal-200/80 px-3 py-1 rounded-full text-xs font-bold text-[#0D9488]">
+                <ShieldCheck className="w-3.5 h-3.5 text-[#0D9488]" />
+                <span>
+                  {language === "hi"
+                    ? "सीधा संपर्क और सहायता"
+                    : "Direct Contact & Pilot Support"}
+                </span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+                {language === "hi"
+                  ? "संपर्क और पायलट सहायता"
+                  : "Contact & Pilot Support"}
+              </h2>
+              <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
+                {language === "hi"
+                  ? "पायलट फीडबैक, कम्युनिटी सुझाव या साझेदारी के लिए सीधे हमारी टीम से संपर्क करें।"
+                  : "Reach out for pilot feedback, community suggestions, or city transit partnerships."}
+              </p>
+            </div>
+
+            {/* 3 Mobile-Responsive Action Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              {/* Card 1: Founder & Pilot Lead */}
+              <div className="bg-white rounded-2xl p-6 border border-amber-200/80 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+                <div className="space-y-3">
+                  <div className="w-10 h-10 rounded-xl bg-teal-50 border border-teal-100 flex items-center justify-center text-[#0D9488]">
+                    <User className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
+                      {language === "hi"
+                        ? "संस्थापक और पायलट लीड"
+                        : "Founder / Pilot Lead"}
+                    </span>
+                    <h3 className="text-lg font-extrabold text-slate-900 mt-0.5">
+                      Anand Gautam
+                    </h3>
+                    <p className="text-xs text-slate-600 mt-1 leading-relaxed">
+                      {language === "hi"
+                        ? "सहेलीमाइल इनिशिएटिव • भोपाल कम्यूटर पायलट"
+                        : "SaheliMile Initiative • Bhopal Commuter Pilot"}
+                    </p>
+                  </div>
+                </div>
+                <div className="pt-4 mt-4 border-t border-slate-100">
+                  <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-teal-800 bg-teal-50 px-2.5 py-1 rounded-full">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                    {language === "hi" ? "पायलट सक्रिय" : "Pilot Active"}
+                  </span>
+                </div>
+              </div>
+
+              {/* Card 2: Official Support Email */}
+              <div className="bg-white rounded-2xl p-6 border border-amber-200/80 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+                <div className="space-y-3">
+                  <div className="w-10 h-10 rounded-xl bg-orange-50 border border-orange-100 flex items-center justify-center text-[#F97316]">
+                    <Mail className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
+                      {language === "hi"
+                        ? "आधिकारिक ईमेल"
+                        : "Official Support Email"}
+                    </span>
+                    <h3 className="text-base font-extrabold text-slate-900 mt-0.5 break-all">
+                      sahelimile@gmail.com
+                    </h3>
+                    <p className="text-xs text-slate-600 mt-1 leading-relaxed">
+                      {language === "hi"
+                        ? "पूछताछ, फीडबैक या तकनीकी सहायता के लिए लिखें।"
+                        : "Write to us for queries, feedback, or partnerships."}
+                    </p>
+                  </div>
+                </div>
+                <div className="pt-4 mt-4 border-t border-slate-100">
+                  <a
+                    href="mailto:sahelimile@gmail.com"
+                    className="inline-flex items-center gap-2 bg-[#0D9488] hover:bg-teal-700 text-white font-bold text-xs py-2 px-3.5 rounded-xl shadow-xs transition-colors"
+                  >
+                    <Mail className="w-3.5 h-3.5" />
+                    <span>
+                      {language === "hi" ? "ईमेल भेजें" : "Send an Email"}
+                    </span>
+                  </a>
+                </div>
+              </div>
+
+              {/* Card 3: Official Social Channels */}
+              <div className="bg-white rounded-2xl p-6 border border-amber-200/80 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+                <div className="space-y-3">
+                  <div className="w-10 h-10 rounded-xl bg-purple-50 border border-purple-100 flex items-center justify-center text-purple-700">
+                    <AtSign className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
+                      {language === "hi"
+                        ? "आधिकारिक सोशल मीडिया"
+                        : "Official Social Channels"}
+                    </span>
+                    <h3 className="text-base font-extrabold text-slate-900 mt-0.5">
+                      @sahelimile
+                    </h3>
+                    <p className="text-xs text-slate-600 mt-1 leading-relaxed">
+                      {language === "hi"
+                        ? "दैनिक अपडेट्स और सुरक्षा अभियानों के लिए जुड़ें।"
+                        : "Follow daily updates and safety campaigns."}
+                    </p>
+                  </div>
+                </div>
+                <div className="pt-4 mt-4 border-t border-slate-100 flex flex-wrap gap-2">
+                  <a
+                    href="https://instagram.com/sahelimile"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 bg-gradient-to-r from-pink-500 via-rose-500 to-amber-500 hover:opacity-95 text-white font-bold text-xs py-2 px-3 rounded-xl shadow-xs transition-opacity"
+                  >
+                    <svg
+                      className="w-3.5 h-3.5 fill-none stroke-current"
+                      viewBox="0 0 24 24"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+                      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                      <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+                    </svg>
+                    <span>Instagram</span>
+                  </a>
+                  <a
+                    href="https://x.com/Sahelimile"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 bg-slate-900 hover:bg-black text-white font-bold text-xs py-2 px-3 rounded-xl shadow-xs transition-colors"
+                  >
+                    <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                    </svg>
+                    <span>X (Twitter)</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
 
       {/* Footer */}
       <footer className="mt-auto bg-[#0F172A] text-slate-400 py-12 px-4 sm:px-6 text-xs">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-8 pb-8 border-b border-slate-800">
-          <div>
+        <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 pb-8 border-b border-slate-800">
+          {/* Col 1: Brand & Lead */}
+          <div className="space-y-3">
             <div className="flex items-center gap-2 text-white font-extrabold text-base">
-              <img src="/icon-192.png" alt="SaheliMile Logo" className="w-6 h-6 rounded-md object-cover" />
+              <img
+                src="/icon-192.png"
+                alt="SaheliMile Logo"
+                className="w-6 h-6 rounded-md object-cover"
+              />
               <span>SaheliMile</span>
             </div>
-            <p className="mt-2 text-slate-400 leading-relaxed max-w-xs">
+            <p className="text-slate-400 leading-relaxed text-xs">
               {language === "hi"
                 ? "घर तक आपका सुरक्षित, साझा अंतिम मील सफर। ट्यूटड्यूड बिल्डाथॉन (सिटीफिक्स चैलेंज) के लिए निर्मित।"
                 : "Your Safe, Shared Last-Mile Home. Built for the TuteDude Buildathon (CityFix Challenge)."}
             </p>
+            <div className="pt-1 text-[11px] text-slate-300">
+              <span className="text-slate-500 block">
+                {language === "hi"
+                  ? "संस्थापक और पायलट लीड:"
+                  : "Founder / Pilot Lead:"}
+              </span>
+              <span className="font-bold text-white text-xs">Anand Gautam</span>
+            </div>
           </div>
 
+          {/* Col 2: Contact & Social */}
+          <div>
+            <h4 className="text-slate-200 font-bold mb-3 uppercase tracking-wider text-[11px]">
+              {language === "hi" ? "संपर्क और सोशल" : "Contact & Support"}
+            </h4>
+            <div className="space-y-2.5">
+              <a
+                href="mailto:sahelimile@gmail.com"
+                className="flex items-center gap-2 text-slate-300 hover:text-teal-400 transition-colors group"
+              >
+                <Mail className="w-3.5 h-3.5 text-teal-400 flex-shrink-0" />
+                <span className="truncate group-hover:underline">
+                  sahelimile@gmail.com
+                </span>
+              </a>
+              <a
+                href="https://instagram.com/sahelimile"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-slate-300 hover:text-pink-400 transition-colors group"
+              >
+                <svg
+                  className="w-3.5 h-3.5 fill-none stroke-current text-pink-400 flex-shrink-0"
+                  viewBox="0 0 24 24"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                  <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+                </svg>
+                <span>
+                  Instagram:{" "}
+                  <span className="font-semibold text-white">@sahelimile</span>
+                </span>
+              </a>
+              <a
+                href="https://x.com/Sahelimile"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-slate-300 hover:text-sky-400 transition-colors group"
+              >
+                <svg
+                  className="w-3.5 h-3.5 fill-current text-sky-400 flex-shrink-0"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                </svg>
+                <span>
+                  X (Twitter):{" "}
+                  <span className="font-semibold text-white">@Sahelimile</span>
+                </span>
+              </a>
+            </div>
+          </div>
+
+          {/* Col 3: Design System & Brand Kit */}
           <div>
             <h4 className="text-slate-200 font-bold mb-3 uppercase tracking-wider text-[11px]">
               {language === "hi"
@@ -939,6 +1169,7 @@ export default function LandingPage() {
             </div>
           </div>
 
+          {/* Col 4: Project Resources */}
           <div>
             <h4 className="text-slate-200 font-bold mb-3 uppercase tracking-wider text-[11px]">
               {language === "hi" ? "प्रोजेक्ट संसाधन" : "Project Resources"}
@@ -981,8 +1212,13 @@ export default function LandingPage() {
                     : "Primary Commuter Survey (Google Form)"}
                 </span>
               </a>
-              <Link href="/app" className="block hover:text-white transition-colors">
-                {language === "hi" ? "पायलट PWA वेब ऐप (/app)" : "Pilot PWA Web App (/app)"}
+              <Link
+                href="/app"
+                className="block hover:text-white transition-colors"
+              >
+                {language === "hi"
+                  ? "पायलट PWA वेब ऐप (/app)"
+                  : "Pilot PWA Web App (/app)"}
               </Link>
               <button
                 type="button"

@@ -137,6 +137,18 @@ npm start
 
 ---
 
+## 📬 Contact & Pilot Support
+
+For commuter feedback, municipal transit integrations, or buildathon evaluation queries:
+
+- **Founder & Pilot Lead:** **Anand Gautam**
+- **Official Support Email:** [`sahelimile@gmail.com`](mailto:sahelimile@gmail.com)
+- **Instagram:** [@sahelimile](https://instagram.com/sahelimile)
+- **X (Twitter):** [@Sahelimile](https://x.com/Sahelimile)
+- **Primary Pilot Survey:** [Google Form Survey](https://docs.google.com/forms/d/1edAnanUOB2yZp5y3EvPWA6jCQDE4mMzCH29rsy0SAQ4/viewform)
+
+---
+
 ## 🏆 Buildathon Attribution
 Built with pride for the **TuteDude Buildathon (CityFix Challenge)**.  
 `#TutedudeBuildathon` `#BuildForMyCity` `#CityFixChallenge`
