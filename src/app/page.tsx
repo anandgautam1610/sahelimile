@@ -170,8 +170,8 @@ export default function LandingPage() {
       <header className="sticky top-0 z-50 bg-[#FFFBEB]/90 backdrop-blur-md border-b border-amber-200/50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2.5">
-            <div className="w-10 h-10 rounded-2xl bg-[#0D9488] flex items-center justify-center shadow-md shadow-teal-900/10 text-white font-extrabold text-xl">
-              🛺
+            <div className="w-10 h-10 rounded-2xl bg-[#0D9488] flex items-center justify-center shadow-md shadow-teal-900/10 overflow-hidden">
+              <img src="/icon-192.png" alt="SaheliMile Logo" className="w-full h-full object-cover" />
             </div>
             <div>
               <span className="text-xl font-extrabold tracking-tight text-[#0F172A]">
@@ -907,7 +907,7 @@ export default function LandingPage() {
         <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-8 pb-8 border-b border-slate-800">
           <div>
             <div className="flex items-center gap-2 text-white font-extrabold text-base">
-              <span>🛺</span>
+              <img src="/icon-192.png" alt="SaheliMile Logo" className="w-6 h-6 rounded-md object-cover" />
               <span>SaheliMile</span>
             </div>
             <p className="mt-2 text-slate-400 leading-relaxed max-w-xs">

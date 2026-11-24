@@ -539,8 +539,8 @@ export default function LoginPage() {
         <div className="bg-white rounded-3xl p-6 sm:p-7 shadow-xl border border-amber-200/80 space-y-4">
           {/* Brand Header */}
           <div className="text-center space-y-1">
-            <div className="w-12 h-12 rounded-2xl bg-[#0D9488] text-white mx-auto flex items-center justify-center font-extrabold text-2xl shadow-md shadow-teal-900/15">
-              🛺
+            <div className="w-12 h-12 rounded-2xl bg-[#0D9488] text-white mx-auto flex items-center justify-center font-extrabold text-2xl shadow-md shadow-teal-900/15 overflow-hidden">
+              <img src="/icon-192.png" alt="SaheliMile" className="w-full h-full object-cover" />
             </div>
             <h2 className="text-xl font-black text-slate-900 tracking-tight">
               Saheli<span className="text-[#0D9488]">Mile</span>

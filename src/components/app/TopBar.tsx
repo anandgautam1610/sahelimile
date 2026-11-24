@@ -108,8 +108,8 @@ export default function TopBar({
         {/* Main app bar */}
         <div className="px-4 py-2.5 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-xl bg-[#0D9488] text-white flex items-center justify-center font-extrabold text-sm shadow-sm">
-              🛺
+            <div className="w-8 h-8 rounded-xl bg-[#0D9488] text-white flex items-center justify-center font-extrabold text-sm shadow-sm overflow-hidden">
+              <img src="/icon-192.png" alt="SaheliMile" className="w-full h-full object-cover" />
             </div>
             <div>
               <div className="flex items-center gap-1.5">

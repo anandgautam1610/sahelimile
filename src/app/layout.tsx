@@ -33,6 +33,7 @@ export const metadata: Metadata = {
     capable: true,
     statusBarStyle: "default",
     title: "SaheliMile",
+    startupImage: ["/icon-512.png"],
   },
   openGraph: {
     title: "SaheliMile — Safe, Shared Last-Mile Commutes for Women",
@@ -50,8 +51,16 @@ export const metadata: Metadata = {
       "Connecting verified women commuters exiting transit hubs along overlapping corridors with 50% fare split.",
   },
   icons: {
-    icon: "/icon.svg",
-    apple: "/icon-192.png",
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+    shortcut: "/favicon.ico",
   },
 };
 
@@ -63,9 +72,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/manifest.json" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="SaheliMile" />
         <meta name="theme-color" content="#0D9488" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
