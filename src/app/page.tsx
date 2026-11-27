@@ -946,10 +946,12 @@ export default function LandingPage() {
                     <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
                       {language === "hi"
                         ? "संस्थापक और पायलट लीड"
-                        : "Founder / Pilot Lead"}
+                        : "Founders & Pilot Leads"}
                     </span>
-                    <h3 className="text-lg font-extrabold text-slate-900 mt-0.5">
-                      Anand Gautam
+                    <h3 className="text-base sm:text-lg font-extrabold text-slate-900 mt-0.5 leading-snug">
+                      {language === "hi"
+                        ? "आनंद गौतम और वंशज सक्सेना"
+                        : "Anand Gautam & Vanshaj Saxena"}
                     </h3>
                     <p className="text-xs text-slate-600 mt-1 leading-relaxed">
                       {language === "hi"
@@ -1083,9 +1085,13 @@ export default function LandingPage() {
               <span className="text-slate-500 block">
                 {language === "hi"
                   ? "संस्थापक और पायलट लीड:"
-                  : "Founder / Pilot Lead:"}
+                  : "Founders & Pilot Leads:"}
               </span>
-              <span className="font-bold text-white text-xs">Anand Gautam</span>
+              <span className="font-bold text-white text-xs">
+                {language === "hi"
+                  ? "आनंद गौतम और वंशज सक्सेना"
+                  : "Anand Gautam & Vanshaj Saxena"}
+              </span>
             </div>
           </div>
 

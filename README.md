@@ -141,7 +141,7 @@ npm start
 
 For commuter feedback, municipal transit integrations, or buildathon evaluation queries:
 
-- **Founder & Pilot Lead:** **Anand Gautam**
+- **Founders & Pilot Leads:** **Anand Gautam & Vanshaj Saxena** (आनंद गौतम और वंशज सक्सेना)
 - **Official Support Email:** [`sahelimile@gmail.com`](mailto:sahelimile@gmail.com)
 - **Instagram:** [@sahelimile](https://instagram.com/sahelimile)
 - **X (Twitter):** [@Sahelimile](https://x.com/Sahelimile)

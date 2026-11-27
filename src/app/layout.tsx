@@ -25,8 +25,12 @@ export const metadata: Metadata = {
     "CityFix Buildathon",
     "women shared mobility",
   ],
-  authors: [{ name: "SaheliMile Team" }],
-  creator: "SaheliMile Team",
+  authors: [
+    { name: "Anand Gautam" },
+    { name: "Vanshaj Saxena" },
+    { name: "SaheliMile Team" },
+  ],
+  creator: "Anand Gautam & Vanshaj Saxena",
   publisher: "SaheliMile",
   manifest: "/manifest.json",
   appleWebApp: {
